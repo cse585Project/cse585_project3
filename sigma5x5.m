@@ -23,7 +23,7 @@ sigma = zeros(size(f));
 
 % Convert f to a 16-bit number, so we can do  sums > 255 correctly
 
-g = uint16(f);
+g = double(f);
 
 % Define the coordinate limits for pixels that can be properly
 %     processed by the 5X5 filter
