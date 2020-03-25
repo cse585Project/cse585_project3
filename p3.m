@@ -38,6 +38,29 @@ for i = 1:4
 end
 figure('Name',"5x5 sigma filter result with sigma 20 (5 iterations)"),imshow(sigma_image);
 
+%% Anisotropic Diffusion
+% part (a)
+% K=30, g(.)=exp
+img = imread('cwheelnoise.gif');
+figure('Name','original image'),imshow(img);
+res1 = anisotopicdiff(img,5,30,1);
+figure('Name','after 5 iteration'),imshow(res1);
+res2 = anisotopicdiff(img,20,30,1);
+figure('Name','after 20 iteration'),imshow(res2);
+res3 = anisotopicdiff(img,100,30,1);
+figure('Name','after 100 iteration'),imshow(res3);
+
+% part (b)
+% K=30, g(.)=exp
+img = imread('cameraman.tif');
+figure('Name','original image'),imshow(img);
+res1 = anisotopicdiff(img,5,30,1);
+figure('Name','after 5 iteration'),imshow(res1);
+res2 = anisotopicdiff(img,20,30,1);
+figure('Name','after 20 iteration'),imshow(res2);
+res3 = anisotopicdiff(img,100,30,1);
+figure('Name','after 100 iteration'),imshow(res3);
+
 %% 5x5 alpha-trimmed mean filter (alpha = 0.25)
 % 1 Iteration
 alpha_image = alpha5x5(f, 0.25);
