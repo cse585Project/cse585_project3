@@ -5,8 +5,6 @@
 %
 % Input Variables:
 %      f       MxN input 2D gray-scale image to be filtered
-%      fzero   MxN image full of zeroes
-%      M, N    rows (M) and columns (N) in f
 %      x       x coordinate of a pixel
 %      y       y coordinate of a pixel
 %      xlo, xhi, ylo, yhi   Limits on what can be processed by filter
@@ -16,16 +14,11 @@
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-function [mean] = mean5x5(f,fzero,M,N)
+function [mean] = mean5x5(f)
 
 %  Fill the output image with zeroes first
 %  (Step below is admittedly very cumbersome!)
-
-for x = 1 : M        
-    for y = 1 : N    
-        mean(x,y) = fzero(x,y);
-    end
-end
+mean = zeros(size(f));
 
 % Convert f to a 16-bit number, so we can do  sums > 255 correctly
 
@@ -35,9 +28,9 @@ g = uint16(f);
 %     processed by the 5X5 filter
 
 xlo = 3;   % Can't process first column
-xhi = M-2; % Can't process last  column
+xhi = size(f,1)-2; % Can't process last  column
 ylo = 3;   % Can't process first row
-yhi = N-2; % Can't process last  row
+yhi = size(f,2)-2; % Can't process last  row
 
 % Compute the filtered output image
 
