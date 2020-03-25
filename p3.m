@@ -37,3 +37,15 @@ for i = 1:4
    sigma_image = sigma5x5(sigma_image, 20);
 end
 figure('Name',"5x5 sigma filter result with sigma 20 (5 iterations)"),imshow(sigma_image);
+
+%% 5x5 alpha-trimmed mean filter (alpha = 0.25)
+% 1 Iteration
+alpha_image = alpha5x5(f, 0.25);
+figure('Name',"5x5 alpha-trimmed mean filter result with alpha 0.25 (1 iteration)"),imshow(alpha_image);
+
+% 5 Iterations
+for i = 1:4
+   alpha_image = alpha5x5(alpha_image, 0.25);
+end
+figure('Name',"5x5 alpha-trimmed mean filter result with alpha 0.25 (5 iterations)"),imshow(alpha_image);
+
