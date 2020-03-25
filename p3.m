@@ -1,7 +1,7 @@
 %%
 clear all;
 % Load the image
-f = imread('RandomDisks-P10.jpg');
+f = imread('disk.gif');
 % Convert RGB image to grayscale image
 g = rgb2gray(f);
 figure('Name',"Original Grayscale image"),imshow(g);
