@@ -95,69 +95,85 @@ figure('Name','histogram'),histogram(SNN_image,256);
 % K=30, g(.)=exp
 img = imread('cwheelnoise.gif');
 figure();
-subplot(4,3,1);
+subplot(4,4,1);
 imshow(img);
 title('original image');
 
-subplot(4,3,2);
+subplot(4,4,2);
+histogram(img,256);
+title('histogram on original image');
+
+subplot(4,4,3);
 plot((1:256),img(:,128).','-');
 title('plot y=128 of original image');
 
 tmp = img;
 tmp((tmp>=80) & (tmp<=110))=0;
 tmp(((0<tmp)&(tmp<80)) | (tmp>110))=255;
-subplot(4,3,3);
+subplot(4,4,4);
 imshow(tmp);
 title('spoke of original image');
 
 
 res1 = anisotopicdiff(img,5,5,2);
-subplot(4,3,4);
+subplot(4,4,5);
 imshow(res1);
 title('image after 5 iteration');
 
-subplot(4,3,5);
+subplot(4,4,6);
+histogram(res1,256);
+title('histogram after 5 iteration');
+
+subplot(4,4,7);
 plot((1:256),res1(:,128).','-');
 title('plot y=128 after 5 iteration');
 
 tmp = res1;
 tmp((tmp>=80) & (tmp<=110))=0;
 tmp(((0<tmp)&(tmp<80)) | (tmp>110))=255;
-subplot(4,3,6);
+subplot(4,4,8);
 imshow(tmp);
 title('spoke of image after 5 iteration');
 
 
 res2 = anisotopicdiff(img,20,5,2);
-subplot(4,3,7);
+subplot(4,4,9);
 imshow(res2);
 title('image after 20 iteration');
 
-subplot(4,3,8);
+subplot(4,4,10);
+histogram(res2,256);
+title('histogram after 20 iteration');
+
+subplot(4,4,11);
 plot((1:256),res2(:,128).','-');
 title('plot y=128 after 20 iteration');
 
 tmp = res2;
 tmp((tmp>=80) & (tmp<=110))=0;
 tmp(((0<tmp)&(tmp<80)) | (tmp>110))=255;
-subplot(4,3,9);
+subplot(4,4,12);
 imshow(tmp);
 title('spoke of image after 20 iteration');
 
 
 res3 = anisotopicdiff(img,100,5,2);
-subplot(4,3,10);
+subplot(4,4,13);
 imshow(res3);
 title('image after 100 iteration');
 
-subplot(4,3,11);
+subplot(4,4,14);
+histogram(res3,256);
+title('histogram after 100 iteration');
+
+subplot(4,4,15);
 plot((1:256),res3(:,128).','-');
 title('plot y=128 after 100 iteration');
 
 tmp = res3;
 tmp((tmp>=80) & (tmp<=110))=0;
 tmp(((0<tmp)&(tmp<80)) | (tmp>110))=255;
-subplot(4,3,12);
+subplot(4,4,16);
 imshow(tmp);
 title('spoke of image after 100 iteration');
 
