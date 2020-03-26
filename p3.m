@@ -4,17 +4,6 @@ clear all;
 f = imread('disk.gif');
 figure('Name',"Original Grayscale image"),imshow(f);
 
-%% Apply built-in median filter on grayscale image
-% 1 Iteration
-med_image = medfilt2(f, [5,5]);
-figure('Name',"5x5 Median filter result (1 iteration)"),imshow(med_image);
-
-% 5 Iterations
-for i = 1:4
-    med_image = medfilt2(med_image, [5,5]);
-end
-figure('Name',"5x5 Median filter result (5 iterations)"),imshow(med_image);
-
 %% Apply 5x5 mean filter on grayscale image
 fzero = zeros(size(f));
 % 1 Iteration
@@ -26,6 +15,40 @@ for i = 1:4
     mean_image = mean5x5(mean_image);
 end
 figure('Name',"5x5 Mean filter result (5 iterations)"),imshow(mean_image);
+figure('Name',"Histogram for 5x5 meann filter result"), histogram(mean_image, 256);
+% get the sub-region for calculation
+sub_region = mean_image(50:181,30:155);
+disk = reshape(sub_region, [], 1);
+% use the threhold to get the interior of the large disk we want
+rowsToDelete = disk < 115; % 115 is the threhold
+disk(rowsToDelete) = [];
+
+% mean and std of the the interior of the large disk region
+mean_large_disk = mean(disk);
+std_large_disk = std(double(disk));
+%% Apply built-in median filter on grayscale image
+% 1 Iteration
+med_image = medfilt2(f, [5,5]);
+figure('Name',"5x5 Median filter result (1 iteration)"),imshow(med_image);
+
+% 5 Iterations
+for i = 1:4
+    med_image = medfilt2(med_image, [5,5]);
+end
+figure('Name',"5x5 Median filter result (5 iterations)"),imshow(med_image);
+figure('Name',"Histogram for 5x5 median filter result"), histogram(med_image);
+
+%% 5x5 alpha-trimmed mean filter (alpha = 0.25)
+% 1 Iteration
+alpha_image = alpha5x5(f, 0.25);
+figure('Name',"5x5 alpha-trimmed mean filter result with alpha 0.25 (1 iteration)"),imshow(alpha_image);
+
+% 5 Iterations
+for i = 1:4
+   alpha_image = alpha5x5(alpha_image, 0.25);
+end
+figure('Name',"5x5 alpha-trimmed mean filter result with alpha 0.25 (5 iterations)"),imshow(alpha_image);
+figure('Name',"Histogram for 5x5 alpha-trimmed mean filter result with alpha 0.25"), histogram(alpha_image);
 
 %% 5x5 sigma filter (sigma = 20)
 % 1 Iteration
@@ -37,6 +60,7 @@ for i = 1:4
    sigma_image = sigma5x5(sigma_image, 20);
 end
 figure('Name',"5x5 sigma filter result with sigma 20 (5 iterations)"),imshow(sigma_image);
+figure('Name',"Histogram for 5x5 sigma filter result with sigma 20"), histogram(sigma_image);
 
 %% Anisotropic Diffusion
 % part (a)
@@ -61,14 +85,7 @@ figure('Name','after 20 iteration'),imshow(res2);
 res3 = anisotopicdiff(img,100,30,1);
 figure('Name','after 100 iteration'),imshow(res3);
 
-%% 5x5 alpha-trimmed mean filter (alpha = 0.25)
-% 1 Iteration
-alpha_image = alpha5x5(f, 0.25);
-figure('Name',"5x5 alpha-trimmed mean filter result with alpha 0.25 (1 iteration)"),imshow(alpha_image);
 
-% 5 Iterations
-for i = 1:4
-   alpha_image = alpha5x5(alpha_image, 0.25);
-end
-figure('Name',"5x5 alpha-trimmed mean filter result with alpha 0.25 (5 iterations)"),imshow(alpha_image);
+
+
 
