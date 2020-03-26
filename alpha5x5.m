@@ -20,8 +20,9 @@ function [alpha] = alpha5x5(f,alp)
 %  (Step below is admittedly very cumbersome!)
 alpha = zeros(size(f));
 alpha = uint16(alpha);
-% Convert f to a 16-bit number, so we can do  sums > 255 correctly
-g = uint16(f);
+
+% Convert g to a 16-bit number, so we can do  sums > 255 correctly
+g = uint16(g);
 
 n = 25;     %window length
 alpha_n = floor(n*alp);

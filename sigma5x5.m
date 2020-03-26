@@ -17,21 +17,20 @@
 
 function [sigma] = sigma5x5(f,sig)
 
-%  Fill the output image with zeroes first
+%  Fill the output image with zeroes first and padding
 %  (Step below is admittedly very cumbersome!)
-sigma = zeros(size(f));
+sigma = zeros(size(f)+4);
 
-% Convert f to a 16-bit number, so we can do  sums > 255 correctly
-
-g = double(f);
-
+% Padding
+g = padarray(f,[2 2],0,'both');
+g = double(g);
 % Define the coordinate limits for pixels that can be properly
 %     processed by the 5X5 filter
 
 xlo = 3;   % Can't process first column
-xhi = size(f,1)-2; % Can't process last  column
+xhi = size(sigma,1)-2; % Can't process last  column
 ylo = 3;   % Can't process first row
-yhi = size(f,2)-2; % Can't process last  row
+yhi = size(sigma,2)-2; % Can't process last  row
 
 % Compute the filtered output image
 for x = xlo : xhi        % Don't consider boundary pixels that can't
@@ -48,5 +47,7 @@ for x = xlo : xhi        % Don't consider boundary pixels that can't
         sigma(x,y) = sigma(x,y) / Nc;
     end
 end
+% remove padding
+sigma = sigma(xlo : xhi, ylo : yhi);
 % Convert back to an 8-bit image
 sigma = uint8(sigma);

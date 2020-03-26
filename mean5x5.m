@@ -18,11 +18,12 @@ function [mean] = mean5x5(f)
 
 %  Fill the output image with zeroes first
 %  (Step below is admittedly very cumbersome!)
-mean = zeros(size(f));
+mean = zeros(size(f)+4);
 
-% Convert f to a 16-bit number, so we can do  sums > 255 correctly
-
-g = uint16(f);
+% padding
+g = padarray(f,[2 2],0,'both');
+% Convert g to a 16-bit number, so we can do  sums > 255 correctly
+g = uint16(g);
 
 % Define the coordinate limits for pixels that can be properly
 %     processed by the 5X5 filter
@@ -44,7 +45,7 @@ for x = xlo : xhi        % Don't consider boundary pixels that can't
         mean(x,y) = mean(x,y) / 25.;
     end
 end
-
+% remove padding
+mean = mean(xlo : xhi, ylo : yhi);
 % Convert back to an 8-bit image
-
 mean = uint8(mean);

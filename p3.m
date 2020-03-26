@@ -9,7 +9,6 @@ fzero = zeros(size(f));
 % 1 Iteration
 mean_image = mean5x5(f);
 figure('Name',"5x5 Mean filter result (1 iteration)"),imshow(mean_image);
-
 % 5 Iterations
 for i = 1:4
     mean_image = mean5x5(mean_image);
@@ -22,7 +21,6 @@ disk = reshape(sub_region, [], 1);
 % use the threhold to get the interior of the large disk we want
 rowsToDelete = disk < 115; % 115 is the threhold
 disk(rowsToDelete) = [];
-
 % mean and std of the the interior of the large disk region
 mean_large_disk = mean(disk);
 std_large_disk = std(double(disk));
@@ -30,14 +28,21 @@ std_large_disk = std(double(disk));
 % 1 Iteration
 med_image = medfilt2(f, [5,5]);
 figure('Name',"5x5 Median filter result (1 iteration)"),imshow(med_image);
-
 % 5 Iterations
 for i = 1:4
     med_image = medfilt2(med_image, [5,5]);
 end
 figure('Name',"5x5 Median filter result (5 iterations)"),imshow(med_image);
 figure('Name',"Histogram for 5x5 median filter result"), histogram(med_image);
-
+% get the sub-region for calculation
+sub_region = med_image(50:181,30:155);
+disk = reshape(sub_region, [], 1);
+% use the threhold to get the interior of the large disk we want
+rowsToDelete = disk < 115; % 115 is the threhold
+disk(rowsToDelete) = [];
+% mean and std of the the interior of the large disk region
+mean_large_disk = mean(disk);
+std_large_disk = std(double(disk));
 %% 5x5 alpha-trimmed mean filter (alpha = 0.25)
 % 1 Iteration
 alpha_image = alpha5x5(f, 0.25);
@@ -49,7 +54,15 @@ for i = 1:4
 end
 figure('Name',"5x5 alpha-trimmed mean filter result with alpha 0.25 (5 iterations)"),imshow(alpha_image);
 figure('Name',"Histogram for 5x5 alpha-trimmed mean filter result with alpha 0.25"), histogram(alpha_image);
-
+% get the sub-region for calculation
+sub_region = alpha_image(50:181,30:155);
+disk = reshape(sub_region, [], 1);
+% use the threhold to get the interior of the large disk we want
+rowsToDelete = disk < 115; % 115 is the threhold
+disk(rowsToDelete) = [];
+% mean and std of the the interior of the large disk region
+mean_large_disk = mean(disk);
+std_large_disk = std(double(disk));
 %% 5x5 sigma filter (sigma = 20)
 % 1 Iteration
 sigma_image = sigma5x5(f, 20);
@@ -61,7 +74,15 @@ for i = 1:4
 end
 figure('Name',"5x5 sigma filter result with sigma 20 (5 iterations)"),imshow(sigma_image);
 figure('Name',"Histogram for 5x5 sigma filter result with sigma 20"), histogram(sigma_image);
-
+% get the sub-region for calculation
+sub_region = sigma_image(50:181,30:155);
+disk = reshape(sub_region, [], 1);
+% use the threhold to get the interior of the large disk we want
+rowsToDelete = disk < 115; % 115 is the threhold
+disk(rowsToDelete) = [];
+% mean and std of the the interior of the large disk region
+mean_large_disk = mean(disk);
+std_large_disk = std(double(disk));
 %% Anisotropic Diffusion
 % part (a)
 % K=30, g(.)=exp
