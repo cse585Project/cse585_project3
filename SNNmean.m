@@ -1,4 +1,4 @@
-function [IM] = SNNmean(f,M,N)
+function [IM] = SNNmean(f)
 
 %  Fill the output image with zeroes first
 %  (Step below is admittedly very cumbersome!)
@@ -6,6 +6,7 @@ function [IM] = SNNmean(f,M,N)
 % Convert f to a 16-bit number, so we can do  sums > 255 correctly
 
 g = double(f);
+[M,N] = size(f);
 
 % Define the coordinate limits for pixels that can be properly
 %     processed by the 5X5 filter
