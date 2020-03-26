@@ -94,6 +94,7 @@ figure('Name','histogram'),histogram(SNN_image,256);
 % part (a)
 % K=30, g(.)=exp
 img = imread('cwheelnoise.gif');
+figure();
 subplot(4,3,1);
 imshow(img);
 title('original image');
@@ -163,6 +164,7 @@ title('spoke of image after 100 iteration');
 % part (b)
 % K=30, g(.)=exp
 img = imread('cameraman.tif');
+figure();
 subplot(2,2,1);
 imshow(img);
 title('original image');
