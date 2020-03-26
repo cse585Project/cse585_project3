@@ -1,4 +1,4 @@
-function [IM] = SNNmean(f)
+function [im] = SNNmean(f)
 
 %  Fill the output image with zeroes first
 %  (Step below is admittedly very cumbersome!)
@@ -6,37 +6,43 @@ function [IM] = SNNmean(f)
 % Convert f to a 16-bit number, so we can do  sums > 255 correctly
 
 g = double(f);
-[M,N] = size(f);
-
+[M,N]=size(f);
 % Define the coordinate limits for pixels that can be properly
 %     processed by the 5X5 filter
 
 xlo = 3;   % Can't process first column
-xhi = M-2; % Can't process last  column
+xhi = M+2; % Can't process last  column
 ylo = 3;   % Can't process first row
-yhi = N-2; % Can't process last  row
-snn=zeros(size(f));
-IM=zeros(size(f));
+yhi = N+2; % Can't process last  row
+snn=zeros(260,260);
+IM=zeros(260,260);
+im=zeros(size(f));
 % Compute the filtered output image
 
-for x = xlo : xhi        % Don't consider boundary pixels that can't
+
+tempIM = zeros(260,260) ;
+tempIM(3:258,3:258) = g ;
+
+for x = xlo : xhi       % Don't consider boundary pixels that can't
     for y = ylo : yhi    %    be processed!
         for i = -2 : 2
             for j = 0 : 2
                     if (i==0)&&(j==0)
-                        snn(x,y)=g(x,y)+snn(x,y);
+                        snn(x,y)=tempIM(x,y)+snn(x,y);
                     elseif (i<=0)||~(j==0)
-                        if abs(g(x,y)-g(x-i,y-j)) < abs(g(x,y)-g(x+i,y+j))
-                            snn(x,y)=g(x-i,y-j)+snn(x,y);
+                        if abs(tempIM(x,y)-tempIM(x-i,y-j)) < abs(tempIM(x,y)-tempIM(x+i,y+j))
+                            snn(x,y)=tempIM(x-i,y-j)+snn(x,y);
                         else
-                            snn(x,y)=g(x+i,y+j)+snn(x,y);
+                            snn(x,y)=tempIM(x+i,y+j)+snn(x,y);
                         end
                     end
             end     
         end
-        IM(x,y)=snn(x,y) / 13;
+        IM(x,y)=round(snn(x,y) / 13);
     end
 end
 % Convert back to an 8-bit image
-IM = uint8(IM);
+im=IM(3:258,3:258);
+
+im = uint8(im);
 end
