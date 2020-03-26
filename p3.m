@@ -62,6 +62,12 @@ end
 figure('Name',"5x5 sigma filter result with sigma 20 (5 iterations)"),imshow(sigma_image);
 figure('Name',"Histogram for 5x5 sigma filter result with sigma 20"), histogram(sigma_image);
 
+%% SNN filter 
+SNN_image = SNNmean(f);
+figure('Name','5x5 SNN filter result(1 iteration)'),imshow(SNN_image);
+figure('Name','histogram'),histogram(SNN_image,256);
+
+
 %% Anisotropic Diffusion
 % part (a)
 % K=30, g(.)=exp
