@@ -74,7 +74,7 @@ for i = 1:4
 end
 figure('Name',"5x5 sigma filter result with sigma 20 (5 iterations)"),imshow(sigma_image);
 figure('Name',"Histogram for 5x5 sigma filter result with sigma 20"), histogram(sigma_image);
-<<<<<<< HEAD
+
 % get the sub-region for calculation
 sub_region = sigma_image(50:181,30:155);
 disk = reshape(sub_region, [], 1);
