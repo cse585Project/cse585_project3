@@ -8,40 +8,56 @@ function diff = anisotopicdiff(img, t, K, option)
 % Output
 %   diff img after diffusion
 
-maskN = [0,1,0;0,-1,0;0,0,0];
-maskS = [0,0,0;0,-1,0;0,1,0];
-maskE = [0,0,0;0,-1,1;0,0,0];
-maskW = [0,0,0;1,-1,0;0,0,0];
-
 diff = double(img); % initially
+[M,N] = size(img);
 lambda = 0.25; % as required
 
-for i=1:t
-    deltaNI = conv2(diff,maskN,'same');
-    deltaSI = conv2(diff,maskS,'same');
-    deltaWI = conv2(diff,maskW,'same');
-    deltaEI = conv2(diff,maskE,'same');
-    
-    % update c = g(.)
-    if option==1
-        cN = exp(-(deltaNI/K).^2);
-        cS = exp(-(deltaSI/K).^2);
-        cW = exp(-(deltaWI/K).^2);
-        cE = exp(-(deltaEI/K).^2);
-    else
-        cN = 1./(1+(deltaNI/K).^2);
-        cS = 1./(1+(deltaSI/K).^2);
-        cW = 1./(1+(deltaWI/K).^2);
-        cE = 1./(1+(deltaEI/K).^2);
+for iter=1:t
+    for i=1:M
+        for j=1:N
+           if j==N
+              deltaNI = -diff(i,j);
+           else
+               deltaNI = diff(i,j+1)-diff(i,j);
+           end
+           if j==1
+               deltaSI = -diff(i,j);
+           else
+               deltaSI = diff(i,j-1)-diff(i,j);
+           end
+           if i==N
+               deltaEI = -diff(i,j);
+           else
+               deltaEI = diff(i+1,j)-diff(i,j);
+           end
+           if i==1
+               deltaWI = -diff(i,j);
+           else
+               deltaWI = diff(i-1,j)-diff(i,j);
+           end
+               % update c = g(.)
+            if option==1
+                cN = exp(-(deltaNI/K).^2);
+                cS = exp(-(deltaSI/K).^2);
+                cW = exp(-(deltaWI/K).^2);
+                cE = exp(-(deltaEI/K).^2);
+            else
+                cN = 1./(1+(deltaNI/K).^2);
+                cS = 1./(1+(deltaSI/K).^2);
+                cW = 1./(1+(deltaWI/K).^2);
+                cE = 1./(1+(deltaEI/K).^2);
+            end
+
+            diff(i,j) = diff(i,j) + lambda * ...
+                (cN .* deltaNI ...
+                + cS .* deltaSI ...
+                + cW .* deltaWI ...
+                + cE .* deltaEI);
+        end
     end
-    
-    diff = diff + lambda * ...
-        (cN .* deltaNI ...
-        + cS .* deltaSI ...
-        + cW .* deltaWI ...
-        + cE .* deltaEI);
-    
 end
+
+
 diff = uint8(diff);
 
 end
