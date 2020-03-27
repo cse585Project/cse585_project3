@@ -130,7 +130,7 @@ imshow(tmp);
 title('spoke of original image');
 
 
-res1 = anisotopicdiff(img,5,5,2);
+res1 = anisotopicdiff(img,5,30,2);
 subplot(4,4,5);
 imshow(res1);
 title('image after 5 iteration');
@@ -151,7 +151,7 @@ imshow(tmp);
 title('spoke of image after 5 iteration');
 
 
-res2 = anisotopicdiff(img,20,5,2);
+res2 = anisotopicdiff(img,20,30,2);
 subplot(4,4,9);
 imshow(res2);
 title('image after 20 iteration');
@@ -172,7 +172,7 @@ imshow(tmp);
 title('spoke of image after 20 iteration');
 
 
-res3 = anisotopicdiff(img,100,5,2);
+res3 = anisotopicdiff(img,100,30,2);
 subplot(4,4,13);
 imshow(res3);
 title('image after 100 iteration');
@@ -186,8 +186,8 @@ plot((1:256),res3(:,128).','-');
 title('plot y=128 after 100 iteration');
 
 tmp = res3;
-tmp((tmp>=80) & (tmp<=110))=0;
-tmp(((0<tmp)&(tmp<80)) | (tmp>110))=255;
+tmp((tmp>=80) & (tmp<=100))=0;
+tmp(((0<tmp)&(tmp<80)) | (tmp>100))=255;
 subplot(4,4,16);
 imshow(tmp);
 title('spoke of image after 100 iteration');
@@ -199,15 +199,15 @@ figure();
 subplot(2,2,1);
 imshow(img);
 title('original image');
-res1 = anisotopicdiff(img,5,30,1);
+res1 = anisotopicdiff(img,5,20,1);
 subplot(2,2,2);
 imshow(res1);
 title('image after 5 iteration');
-res2 = anisotopicdiff(img,20,30,1);
+res2 = anisotopicdiff(img,20,20,1);
 subplot(2,2,3);
 imshow(res2);
 title('image after 20 iteration');
-res3 = anisotopicdiff(img,100,30,1);
+res3 = anisotopicdiff(img,100,20,1);
 subplot(2,2,4);
 imshow(res3);
 title('image after 100 iteration');
